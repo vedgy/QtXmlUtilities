@@ -102,9 +102,9 @@ QDomElementCollection getChildren(const QDomElement & e,
 /// function childToResultValue and returns result of the conversion.
 /// @tparam TCollection Must have push_back([const] T [&[&]]  [or implicitly
 /// convertible from]) method; iterators.
-/// @tparam ElementToT Must be a callable object, which takes a single parameter
+/// @tparam ElementToT Must be a callable object that takes a single parameter
 /// of type ([const] QDomElement [&[&]] [or implicitly convertible from]) and
-/// returns T [or value of a type, which is implicitly convertible to T].
+/// returns T [or value of a type that is implicitly convertible to T].
 template <class TCollection, typename ElementToT>
 TCollection getChildren(const QDomElement & e, const QString & tagName,
                         ElementToT childToResultValue);

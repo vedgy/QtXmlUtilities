@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # Depends on TemplateUtilities, Qt, QtCoreUtilities.
-# NOTE: projects, which use this library, must
+# NOTE: projects that use this library must
 # include_directories(${TemplateUtilities_PublicHeaders_Path})
 set(Target_Name QtXmlUtilities)
 set(CAP_Target_Name QT_XML_UTILITIES)
