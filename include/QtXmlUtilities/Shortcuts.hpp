@@ -49,7 +49,7 @@ public:
 void assertTagName(const QDomElement & e, const QString & tagName);
 
 
-/// @brief Returns document with UTF-8 processing instruction.
+/// @return Document with UTF-8 processing instruction.
 QDomDocument createDocument();
 /// @brief Creates root element for doc with name=tagName and returns it.
 QDomElement createRoot(QDomDocument & doc, const QString & tagName);
