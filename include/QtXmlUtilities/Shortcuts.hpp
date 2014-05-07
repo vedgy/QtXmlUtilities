@@ -87,7 +87,7 @@ bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
 template <typename T>
 bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
                             T & destination);
-/// @brief Identical to template copyUniqueChildsTextTo<T>, but uses
+/// @brief Identical to template copyUniqueChildsTextTo<T> but uses
 /// qStringtoByteArray itstead of ConvertQString::to<T>.
 bool copyUniqueChildsTextToByteArray(
     const QDomElement & e, const QString & tagName, QByteArray & destination);

@@ -36,8 +36,8 @@ void assertTagName(const QDomElement & e, const QString & tagName)
     if (e.tagName() != tagName) {
         throw XmlError(
             QObject::tr(
-                "tag name assertion failed. %1 expected, but %2 found.").arg(
-                tagName, e.tagName()));
+                "tag name assertion failed. \"%1\" expected "
+                "but \"%2\" found.").arg(tagName, e.tagName()));
     }
 }
 
