@@ -3,7 +3,7 @@
 <b>vedgTools/QtXmlUtilities</b> is a general-purpose C++ library, which depends
 on QtCore and QtXml libraries. Both Qt4 and Qt5 are supported.
 It also depends on vedgTools/CMakeModules, vedgTools/TemplateUtilities and
-vedgTools/QtCoreUtilities libraries, which are present as a submodules in this
+vedgTools/QtCoreUtilities libraries, which are present as submodules in this
 git repository.
 
 ## License

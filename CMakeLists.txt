@@ -10,8 +10,8 @@ message(<${Target_Name}>)
 ## vedgTools/CMakeModules path boilerplate.
 include(vedgTools/CMakeLicense OPTIONAL RESULT_VARIABLE CMakeModulesWasIncluded)
 if(CMakeModulesWasIncluded STREQUAL NOTFOUND)
-    set(CMAKE_MODULE_PATH
-            "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
+    set(PATH_TO_CMAKE_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PATH_TO_CMAKE_MODULES})
     message("Including CMakeModules.")
     include(vedgTools/CMakeLicense)
 endif()
@@ -25,11 +25,10 @@ include(vedgTools/LibraryQtCoreUtilitiesStart)
 include(vedgTools/LibraryWithQtInit)
 
 
-include(vedgTools/LibraryGetTemplateUtilitiesPublicHeaders)
-
 include(vedgTools/LibraryFindQt)
 libraryFindQt(Qt5Core Qt5Xml . QTCORE QTXML)
 
+include(vedgTools/LibraryGetTemplateUtilitiesPublicHeaders)
 include(vedgTools/LibraryGetQtCoreUtilitiesPublicHeaders)
 
 
@@ -43,7 +42,7 @@ include_directories(
 )
 
 set(Sources
-    ${Sources_Path}/Shortcuts.cpp
+    ${Sources_Path}/ReadingShortcuts.cpp ${Sources_Path}/WritingShortcuts.cpp
 )
 
 
@@ -56,6 +55,6 @@ include(vedgTools/LibraryLinkQtCoreUtilitiesToTarget)
 
 
 set_target_properties(${Target_Name} PROPERTIES
-                        PUBLIC_HEADER "Shortcuts.hpp")
+                PUBLIC_HEADER "ReadingShortcuts.hpp;WritingShortcuts.hpp")
 
 message(</${Target_Name}>)

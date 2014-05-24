@@ -16,9 +16,10 @@
  vedgTools/QtXmlUtilities.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# include "Shortcuts.hpp"
+# include "WritingShortcuts.hpp"
 
 # include <QString>
+# include <QStringList>
 # include <QObject>
 # include <QDir>
 # include <QFile>
@@ -29,19 +30,8 @@
 
 namespace QtUtilities
 {
-namespace Xml
+namespace XmlWriting
 {
-void assertTagName(const QDomElement & e, const QString & tagName)
-{
-    if (e.tagName() != tagName) {
-        throw XmlError(
-            QObject::tr(
-                "tag name assertion failed. \"%1\" expected "
-                "but \"%2\" found.").arg(tagName, e.tagName()));
-    }
-}
-
-
 QDomDocument createDocument()
 {
     QDomDocument doc;
@@ -57,6 +47,7 @@ QDomElement createRoot(QDomDocument & doc, const QString & tagName)
     return root;
 }
 
+
 QDomElement createElement(QDomDocument & doc, const QString & tagName,
                           const QString & text)
 {
@@ -65,63 +56,16 @@ QDomElement createElement(QDomDocument & doc, const QString & tagName,
     return e;
 }
 
-
-QDomElement getUniqueChild(const QDomElement & e, const QString & tagName)
+QDomElement createQStringListElement(
+    QDomDocument & doc, const QString & listTagName,
+    const QString & stringTagName, const QStringList & list)
 {
-    const QDomElement child = e.firstChildElement(tagName);
-    if (! child.nextSiblingElement(tagName).isNull()) {
-        throw XmlError(QObject::tr("element with name %1 is not unique.").arg(
-                           tagName));
-    }
-    return child;
+    QDomElement listElement = doc.createElement(listTagName);
+    for (const QString & str : list)
+        listElement.appendChild(createElement(doc, stringTagName, str));
+    return listElement;
 }
 
-bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
-                            QString & destination)
-{
-    const QDomElement child = getUniqueChild(e, tagName);
-    if (child.isNull())
-        return false;
-    destination = child.text();
-    return true;
-}
-
-bool copyUniqueChildsTextToByteArray(
-    const QDomElement & e, const QString & tagName, QByteArray & destination)
-{
-    QString text;
-    if (copyUniqueChildsTextTo(e, tagName, text)) {
-        destination = qStringToByteArray(text);
-        return true;
-    }
-    return false;
-}
-
-
-QDomElement loadRoot(const QString & filename)
-{
-    QDomDocument doc;
-    {
-        QFile file(filename);
-        QString errorMsg;
-        int line, column;
-        if (! doc.setContent(& file, & errorMsg, & line, & column)) {
-            throw XmlError(
-                QObject::tr("could not load XML document from file %1."
-                            " On line %2 at column %3: %4.").arg(filename).arg(
-                    line).arg(column).arg(errorMsg));
-        }
-    }
-    return doc.documentElement();
-}
-
-QDomElement loadRoot(const QString & filename, const QString & tagName)
-{
-    const QDomElement root = loadRoot(filename);
-    if (! root.isNull())
-        assertTagName(root, tagName);
-    return root;
-}
 
 void save(const QDomDocument & doc, const QString & filename, const int indent)
 {
@@ -132,11 +76,11 @@ void save(const QDomDocument & doc, const QString & filename, const int indent)
     QFile file(filename);
 
     if (! file.open(QIODevice::WriteOnly)) {
-        throw XmlError(
+        throw WriteError(
             QObject::tr("could not open file %1 for writing.").arg(filename));
     }
     if (file.write(doc.toByteArray(indent)) == -1) {
-        throw XmlError(
+        throw WriteError(
             QObject::tr(
                 "error occurred while writing to file %1.").arg(filename));
     }
