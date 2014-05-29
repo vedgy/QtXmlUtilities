@@ -100,33 +100,35 @@ bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
     return false;
 }
 
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToMin(const QDomElement & e, const QString & tagName,
-                               Number & destination, const Number minValue)
+                               T & destination, const T & minValue)
 {
     return copyUniqueChildsTextTo(e, tagName, destination,
-                                  std::bind(checkMinValue<Number>,
-                                            std::placeholders::_1, minValue));
+                                  std::bind(checkMinValue<T>,
+                                            std::placeholders::_1,
+                                            std::cref(minValue)));
 }
 
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToMax(const QDomElement & e, const QString & tagName,
-                               Number & destination, const Number maxValue)
+                               T & destination, const T & maxValue)
 {
     return copyUniqueChildsTextTo(e, tagName, destination,
-                                  std::bind(checkMaxValue<Number>,
-                                            std::placeholders::_1, maxValue));
+                                  std::bind(checkMaxValue<T>,
+                                            std::placeholders::_1,
+                                            std::cref(maxValue)));
 }
 
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToRange(
     const QDomElement & e, const QString & tagName,
-    Number & destination, const Number minValue, const Number maxValue)
+    T & destination, const T & minValue, const T & maxValue)
 {
-    return copyUniqueChildsTextTo(e, tagName, destination,
-                                  std::bind(checkRange<Number>,
-                                            std::placeholders::_1,
-                                            minValue, maxValue));
+    return copyUniqueChildsTextTo(
+               e, tagName, destination,
+               std::bind(checkRange<T>, std::placeholders::_1,
+                         std::cref(minValue), std::cref(maxValue)));
 }
 
 }

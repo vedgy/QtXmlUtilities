@@ -105,18 +105,18 @@ bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
                             T & destination, Validator validator);
 
 /// @brief Calls copyUniqueChildsTextTo with validator=checkMinValue.
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToMin(const QDomElement & e, const QString & tagName,
-                               Number & destination, Number minValue);
+                               T & destination, const T & minValue);
 /// @brief Calls copyUniqueChildsTextTo with validator=checkMaxValue.
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToMax(const QDomElement & e, const QString & tagName,
-                               Number & destination, Number maxValue);
+                               T & destination, const T & maxValue);
 /// @brief Calls copyUniqueChildsTextTo with validator=checkRange.
-template <typename Number>
+template <typename T>
 bool copyUniqueChildsTextToRange(
     const QDomElement & e, const QString & tagName,
-    Number & destination, Number minValue, Number maxValue);
+    T & destination, const T & minValue, const T & maxValue);
 
 
 /// @brief Gets unique child of e with name=listTagName.
