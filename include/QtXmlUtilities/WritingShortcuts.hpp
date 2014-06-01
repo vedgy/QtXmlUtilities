@@ -72,7 +72,7 @@ QDomElement createQStringListElement(
 
 /// @brief Writes doc to file, specified by filename.
 /// @param indent Amount of space to indent subelements.
-/// @throw WriteError in case of saving error.
+/// @throw WriteError In case of saving error.
 void save(const QDomDocument & doc, const QString & filename, int indent = 4);
 
 

@@ -34,7 +34,7 @@ QT_FORWARD_DECLARE_CLASS(QStringList)
 namespace QtUtilities
 {
 /// @brief Provides shortcuts for parsing QDomDocument.
-/// @throw XmlReading::ReadError in case of parsing error.
+/// @throw XmlReading::ReadError In case of parsing error.
 namespace XmlReading
 {
 class ReadError : public Error
