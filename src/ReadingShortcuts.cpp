@@ -61,7 +61,7 @@ QDomElement loadRoot(const QString & filename)
 
 QDomElement loadRoot(const QString & filename, const QString & tagName)
 {
-    const QDomElement root = loadRoot(filename);
+    QDomElement root = loadRoot(filename);
     if (! root.isNull())
         assertTagName(root, tagName);
     return root;
@@ -70,7 +70,7 @@ QDomElement loadRoot(const QString & filename, const QString & tagName)
 
 QDomElement getUniqueChild(const QDomElement & e, const QString & tagName)
 {
-    const QDomElement child = e.firstChildElement(tagName);
+    QDomElement child = e.firstChildElement(tagName);
     if (! child.nextSiblingElement(tagName).isNull())
         throw ReadError(QObject::tr("element %1 is not unique.").arg(tagName));
     return child;

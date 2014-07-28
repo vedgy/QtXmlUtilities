@@ -18,12 +18,12 @@
 
 # include "WritingShortcuts.hpp"
 
+# include <QtCoreUtilities/Miscellaneous.hpp>
+
 # include <QString>
 # include <QStringList>
 # include <QObject>
-# include <QDir>
 # include <QFile>
-# include <QFileInfo>
 # include <QDomElement>
 # include <QDomDocument>
 
@@ -42,7 +42,7 @@ QDomDocument createDocument()
 
 QDomElement createRoot(QDomDocument & doc, const QString & tagName)
 {
-    const QDomElement root = doc.createElement(tagName);
+    QDomElement root = doc.createElement(tagName);
     doc.appendChild(root);
     return root;
 }
@@ -69,10 +69,7 @@ QDomElement createQStringListElement(
 
 void save(const QDomDocument & doc, const QString & filename, const int indent)
 {
-    {
-        QDir dir;
-        dir.mkpath(QFileInfo(filename).absolutePath());
-    }
+    makePathTo(filename);
     QFile file(filename);
 
     if (! file.open(QIODevice::WriteOnly)) {
