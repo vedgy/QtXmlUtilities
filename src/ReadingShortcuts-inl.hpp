@@ -131,6 +131,17 @@ bool copyUniqueChildsTextToRange(
                          std::cref(minValue), std::cref(maxValue)));
 }
 
+template <typename T>
+bool copyUniqueChildsTextToRange0Allowed(
+    const QDomElement & e, const QString & tagName,
+    T & destination, const T & minValue, const T & maxValue)
+{
+    return copyUniqueChildsTextTo(
+               e, tagName, destination,
+               std::bind(checkRange0Allowed<T>, std::placeholders::_1,
+                         std::cref(minValue), std::cref(maxValue)));
+}
+
 }
 
 }

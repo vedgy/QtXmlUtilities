@@ -117,6 +117,11 @@ template <typename T>
 bool copyUniqueChildsTextToRange(
     const QDomElement & e, const QString & tagName,
     T & destination, const T & minValue, const T & maxValue);
+/// @brief Calls copyUniqueChildsTextTo with validator=checkRange0Allowed.
+template <typename T>
+bool copyUniqueChildsTextToRange0Allowed(
+    const QDomElement & e, const QString & tagName,
+    T & destination, const T & minValue, const T & maxValue);
 
 
 /// @brief Gets unique child of e with name=listTagName.
