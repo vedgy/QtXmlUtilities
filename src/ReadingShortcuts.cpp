@@ -32,6 +32,8 @@ namespace QtUtilities
 {
 namespace XmlReading
 {
+ReadError::~ReadError() noexcept = default;
+
 void assertTagName(const QDomElement & e, const QString & tagName)
 {
     if (e.tagName() != tagName) {

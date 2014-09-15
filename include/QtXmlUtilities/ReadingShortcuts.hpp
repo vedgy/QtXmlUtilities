@@ -21,6 +21,8 @@
 
 # include <QtCoreUtilities/Error.hpp>
 
+# include <CommonUtilities/CopyAndMoveSemantics.hpp>
+
 # include <QtGlobal>
 # include <QDomElement>
 
@@ -41,6 +43,8 @@ class ReadError : public Error
 {
 public:
     explicit ReadError(const QString & sWhat) : Error(sWhat) {}
+    COPYABLE_AND_MOVABLE(ReadError)
+    ~ReadError() noexcept override;
 };
 
 /// @throw ReadError If e's name does not match tagName.

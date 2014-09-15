@@ -22,6 +22,8 @@
 # include <QtCoreUtilities/Error.hpp>
 # include <QtCoreUtilities/String.hpp>
 
+# include <CommonUtilities/CopyAndMoveSemantics.hpp>
+
 # include <QtGlobal>
 # include <QDomElement>
 # include <QDomDocument>
@@ -40,6 +42,8 @@ class WriteError : public Error
 {
 public:
     explicit WriteError(const QString & sWhat) : Error(sWhat) {}
+    COPYABLE_AND_MOVABLE(WriteError)
+    ~WriteError() noexcept override;
 };
 
 /// @return Document with UTF-8 processing instruction.
@@ -108,7 +112,6 @@ struct Element {
 };
 
 struct Document {
-public:
     explicit Document(const QString & rootTagName)
         : domDocument(createDocument()),
           root { domDocument, createRoot(domDocument, rootTagName) } {

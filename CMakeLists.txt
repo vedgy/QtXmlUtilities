@@ -35,6 +35,7 @@ include(vedgTools/LibraryGetQtCoreUtilitiesPublicHeaders)
 set(Sources_Path src)
 
 include_directories(
+    ${PATH_TO_CMAKE_MODULES}/include
     ${TemplateUtilities_PublicHeaders_Path}
     ${QtCoreUtilities_PublicHeaders_Path}
     ${${Target_Name}_PublicHeaders_Path}

@@ -76,7 +76,9 @@ TCollection getChildren(const QDomElement & e, const QString & tagName,
 {
     auto children = getChildren(e, tagName);
     TCollection converted;
-    TemplateUtilities::reserve(converted, children.size());
+    TemplateUtilities::reserve(converted,
+                               static_cast<typename TCollection::size_type>(
+                                   children.size()));
     for (auto & child : children)
         converted.push_back(childToResultValue(std::move(child)));
     return converted;

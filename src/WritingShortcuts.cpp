@@ -32,6 +32,8 @@ namespace QtUtilities
 {
 namespace XmlWriting
 {
+WriteError::~WriteError() noexcept = default;
+
 QDomDocument createDocument()
 {
     QDomDocument doc;
