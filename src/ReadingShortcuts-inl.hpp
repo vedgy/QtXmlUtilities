@@ -1,6 +1,6 @@
 /*
  This file is part of vedgTools/QtXmlUtilities.
- Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+ Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
  vedgTools/QtXmlUtilities is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by
@@ -40,6 +40,25 @@ namespace QtUtilities
 namespace XmlReading
 {
 template <typename T>
+bool copyElementsAttributeTo(
+    const QDomElement & e, const QString & attributeName, T & destination)
+{
+    QString value;
+    if (copyElementsAttributeTo(e, attributeName, value)) {
+        try {
+            destination = ConvertQString::to<T>(value);
+        }
+        catch (const StringError & error) {
+            throw ReadError(
+                QObject::tr("parsing %1 attribute failed - ").arg(attributeName)
+                + QString::fromUtf8(error.what()));
+        }
+        return true;
+    }
+    return false;
+}
+
+template <typename T>
 bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
                             T & destination)
 {
@@ -49,8 +68,9 @@ bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
             destination = ConvertQString::to<T>(text);
         }
         catch (const StringError & error) {
-            throw ReadError(QObject::tr("parsing %1 failed - ").arg(tagName) +
-                            QString::fromUtf8(error.what()));
+            throw ReadError(
+                QObject::tr("parsing %1 element failed - ").arg(tagName)
+                + QString::fromUtf8(error.what()));
         }
         return true;
     }
@@ -144,8 +164,7 @@ bool copyUniqueChildsTextToRange0Allowed(
                          std::cref(minValue), std::cref(maxValue)));
 }
 
-}
-
-}
+} // END namespace XmlReading
+} // END namespace QtUtilities
 
 # endif // QT_XML_UTILITIES_READING_SHORTCUTS_INL_HPP

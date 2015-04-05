@@ -8,7 +8,7 @@ git repository.
 
 ## License
 
-Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
 vedgTools/QtXmlUtilities is licensed under the <b>GNU GPLv3+</b> license,
 a copy of which can be found in the `COPYING` file.

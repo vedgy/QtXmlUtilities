@@ -1,6 +1,6 @@
 /*
  This file is part of vedgTools/QtXmlUtilities.
- Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+ Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
  vedgTools/QtXmlUtilities is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by
@@ -63,13 +63,28 @@ QDomElement loadRoot(const QString & filename, const QString & tagName);
 /// @throw ReadError If e has more than one child with name=tagName.
 QDomElement getUniqueChild(const QDomElement & e, const QString & tagName);
 
+/// @brief If e has an attribute with the specified name, copies the
+/// attribute's value to destination; otherwise destination is not changed.
+/// @return true if attribute's value was copied to destination.
+bool copyElementsAttributeTo(
+    const QDomElement & e, const QString & attributeName,
+    QString & destination);
+/// @brief Calls copyElementsAttributeTo(e, attributeName, <temporary_string>).
+/// If a value was received, converts the value to type T and stores it in
+/// destination; otherwise destination is not changed.
+/// @tparam T There must be a ConvertQString::to<T> specialization.
+/// @return true if converted value was copied to destination.
+template <typename T>
+bool copyElementsAttributeTo(
+    const QDomElement & e, const QString & attributeName, T & destination);
+
 /// @brief Calls getUniqueChild(e, tagName). If result is not a null element,
 /// copies its text to destination; otherwise destination is not changed.
 /// @return true if text was copied to destination.
 bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
                             QString & destination);
 /// @brief Calls copyUniqueChildsTextTo(e, tagName, <temporary_string>).
-/// If text was received, converts text to type T and stores in destination;
+/// If text was received, converts text to type T and stores it in destination;
 /// otherwise destination is not changed.
 /// @tparam T There must be a ConvertQString::to<T> specialization.
 /// @return true if converted text was copied to destination.
@@ -129,17 +144,17 @@ bool copyUniqueChildsTextToRange0Allowed(
 
 
 /// @brief Gets unique child of e with name=listTagName.
-/// Let us name this child "L". If there is no such child, returns false.
-/// Otherwise, gets all children of L, assigns list of these children's texts
-/// to destination and returns true.
+/// Let us name this child "L". If there is no such child, doesn't change
+/// destination and returns false.
+/// Otherwise, gets all children of L with name=stringTagName, assigns a list
+/// of these children's texts to destination and returns true.
 /// @throw ReadError If e has more than one child with name=listTagName.
-bool copyQStringListTo(
+bool copyUniqueChildsStringListTo(
     const QDomElement & e, const QString & listTagName,
     const QString & stringTagName, QStringList & destination);
 
-}
-
-}
+} // END namespace XmlReading
+} // END namespace QtUtilities
 
 # include "../../src/ReadingShortcuts-inl.hpp"
 

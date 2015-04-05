@@ -1,6 +1,6 @@
 /*
  This file is part of vedgTools/QtXmlUtilities.
- Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+ Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
  vedgTools/QtXmlUtilities is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by
@@ -58,7 +58,13 @@ QDomElement createElement(QDomDocument & doc, const QString & tagName,
     return e;
 }
 
-QDomElement createQStringListElement(
+void setAttribute(QDomElement & element, const QString & attributeName,
+                  const QString & attributeText)
+{
+    element.setAttribute(attributeName, attributeText);
+}
+
+QDomElement createStringListElement(
     QDomDocument & doc, const QString & listTagName,
     const QString & stringTagName, const QStringList & list)
 {
@@ -85,6 +91,5 @@ void save(const QDomDocument & doc, const QString & filename, const int indent)
     }
 }
 
-}
-
-}
+} // END namespace XmlWriting
+} // END namespace QtUtilities

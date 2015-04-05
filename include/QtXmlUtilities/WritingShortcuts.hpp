@@ -1,6 +1,6 @@
 /*
  This file is part of vedgTools/QtXmlUtilities.
- Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+ Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
  vedgTools/QtXmlUtilities is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 # include <CommonUtilities/CopyAndMoveSemantics.hpp>
 
 # include <QtGlobal>
+# include <QDomNode>
 # include <QDomElement>
 # include <QDomDocument>
 
@@ -66,10 +67,20 @@ inline QDomElement createElementFromByteArray(
     return createElement(doc, tagName, byteArrayToQString(byteArray));
 }
 
+/// @brief Sets the specified attribute's text to attributeText.
+void setAttribute(QDomElement & element, const QString & attributeName,
+                  const QString & attributeText);
+template <typename T>
+inline void setAttribute(QDomElement & element, const QString & attributeName,
+                         const T & attributeValue)
+{
+    setAttribute(element, attributeName, toQString(attributeValue));
+}
+
 /// @brief Creates element L with name=listTagName. For each string "str" in
 /// list creates element (name=stringTagName, text=str) and appends it to L.
 /// @return L.
-QDomElement createQStringListElement(
+QDomElement createStringListElement(
     QDomDocument & doc, const QString & listTagName,
     const QString & stringTagName, const QStringList & list);
 
@@ -82,29 +93,42 @@ void save(const QDomDocument & doc, const QString & filename, int indent = 4);
 
 
 struct Element {
-    Element appendChild(const QString & tagName) {
+    Element appendElement(const QString & tagName) {
         Element child { domDocument, domDocument.createElement(tagName) };
         domElement.appendChild(child.domElement);
         return child;
     }
 
+    void appendChildNode(const QDomNode & node) {
+        domElement.appendChild(node);
+    }
+
     template <typename T>
     void appendChild(const QString & tagName, const T & value) {
-        domElement.appendChild(createElement(domDocument, tagName, value));
+        appendChildNode(createElement(domDocument, tagName, value));
     }
 
-    void appendByteArray(
-        const QString & tagName, const QByteArray & byteArray) {
-        domElement.appendChild(
-            createElementFromByteArray(domDocument, tagName, byteArray));
+    void appendChildByteArray(const QString & tagName,
+                              const QByteArray & byteArray) {
+        appendChildNode(createElementFromByteArray(
+                            domDocument, tagName, byteArray));
     }
 
-    void appendQStringList(const QString & listTagName,
-                           const QString & stringTagName,
-                           const QStringList & list) {
-        domElement.appendChild(
-            createQStringListElement(
-                domDocument, listTagName, stringTagName, list));
+    template <typename ValueType, typename AttributeType>
+    void appendChildWithAttribute(const QString & tagName,
+                                  const ValueType & value,
+                                  const QString & attributeName,
+                                  const AttributeType & attributeValue) {
+        QDomElement element = createElement(domDocument, tagName, value);
+        setAttribute(element, attributeName, attributeValue);
+        appendChildNode(element);
+    }
+
+    void appendChildStringList(const QString & listTagName,
+                               const QString & stringTagName,
+                               const QStringList & list) {
+        appendChildNode(createStringListElement(
+                            domDocument, listTagName, stringTagName, list));
     }
 
     QDomDocument & domDocument;
@@ -125,8 +149,7 @@ struct Document {
     Element root;
 };
 
-}
-
-}
+} // END namespace XmlWriting
+} // END namespace QtUtilities
 
 # endif // QT_XML_UTILITIES_WRITING_SHORTCUTS_HPP

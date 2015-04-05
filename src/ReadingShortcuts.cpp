@@ -1,6 +1,6 @@
 /*
  This file is part of vedgTools/QtXmlUtilities.
- Copyright (C) 2014 Igor Kushnir <igorkuo AT Google mail>
+ Copyright (C) 2014, 2015 Igor Kushnir <igorkuo AT Google mail>
 
  vedgTools/QtXmlUtilities is free software: you can redistribute it and/or
  modify it under the terms of the GNU General Public License as published by
@@ -78,6 +78,15 @@ QDomElement getUniqueChild(const QDomElement & e, const QString & tagName)
     return child;
 }
 
+bool copyElementsAttributeTo(
+    const QDomElement & e, const QString & attributeName, QString & destination)
+{
+    if (! e.hasAttribute(attributeName))
+        return false;
+    destination = e.attribute(attributeName);
+    return true;
+}
+
 bool copyUniqueChildsTextTo(const QDomElement & e, const QString & tagName,
                             QString & destination)
 {
@@ -99,8 +108,9 @@ bool copyUniqueChildsTextToByteArray(
     return false;
 }
 
-bool copyQStringListTo(const QDomElement & e, const QString & listTagName,
-                       const QString & stringTagName, QStringList & destination)
+bool copyUniqueChildsStringListTo(
+    const QDomElement & e, const QString & listTagName,
+    const QString & stringTagName, QStringList & destination)
 {
     const QDomElement listElement = getUniqueChild(e, listTagName);
     if (listElement.isNull())
@@ -112,6 +122,5 @@ bool copyQStringListTo(const QDomElement & e, const QString & listTagName,
     return true;
 }
 
-}
-
-}
+} // END namespace XmlReading
+} // END namespace QtUtilities
